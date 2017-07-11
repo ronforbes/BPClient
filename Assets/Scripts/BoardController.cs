@@ -15,6 +15,10 @@ public class BoardController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if(Clock.Instance.State != Clock.ClockState.GamePlay) {
+            return;
+        }
+
         // If the mouse button is clicked, find the block it's over, and select it
         if (Input.GetMouseButtonDown(0))
         {

@@ -16,6 +16,10 @@ public class BoardGravity : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if(Clock.Instance.State != Clock.ClockState.GamePlay) {
+            return;
+        }
+        
         for (int x = 0; x < Board.Columns; x++)
         {
             bool emptyBlockDetected = false;

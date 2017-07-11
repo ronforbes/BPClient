@@ -30,6 +30,10 @@ Block block;
     // Update is called once per frame
     void Update()
     {
+        if(Clock.Instance.State != Clock.ClockState.GamePlay) {
+            return;
+        }
+        
         if (block.State == Block.BlockState.Matched)
         {
             elapsed += Time.deltaTime;

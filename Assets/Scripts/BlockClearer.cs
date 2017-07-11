@@ -68,6 +68,10 @@ public class BlockClearer : MonoBehaviour {
     /// </summary>
     void Update()
     {
+        if(Clock.Instance.State != Clock.ClockState.GamePlay) {
+            return;
+        }
+        
         if (block.State == Block.BlockState.WaitingToClear)
         {
             delayElapsed += Time.deltaTime;

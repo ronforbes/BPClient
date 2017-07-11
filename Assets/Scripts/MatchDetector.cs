@@ -36,6 +36,10 @@ List<MatchDetection> matchDetections;
     // Update is called once per frame
     void Update()
     {
+        if(Clock.Instance.State != Clock.ClockState.GamePlay) {
+            return;
+        }
+        
         while (matchDetections.Count > 0)
         {
             MatchDetection detection = matchDetections [0];
