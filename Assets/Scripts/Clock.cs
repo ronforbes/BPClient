@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Clock : MonoBehaviour {
 	static Clock instance;
@@ -21,12 +22,16 @@ public class Clock : MonoBehaviour {
         }
     }
 
+	public bool ControlSceneState;
+
     public float TimeRemaining;
 
 	public enum ClockState {
 		GameStart,
 		GamePlay,
-		GameEnd
+		GameEnd,
+		Results,
+		Leaderboard
 	}
 
 	public ClockState State;
@@ -34,6 +39,8 @@ public class Clock : MonoBehaviour {
 	float gameStartDuration = 3.0f;
 	float gamePlayDuration = 10.0f;
 	float gameEndDuration = 3.0f;
+	float resultsDuration = 10.0f;
+	float leaderboardDuration = 10.0f;
 
 	void Awake()
     {
@@ -52,6 +59,8 @@ public class Clock : MonoBehaviour {
 
 	void Start() {
 		State = ClockState.GameStart;
+
+		ControlSceneState = false;
 		
 		TimeRemaining = gameStartDuration;
 	}
@@ -79,7 +88,39 @@ public class Clock : MonoBehaviour {
 
 			case ClockState.GameEnd:
 				if(TimeRemaining <= 0.0f) {
-					
+					if(ControlSceneState) {
+						SceneManager.LoadScene("Results");
+					}
+
+					State = ClockState.Results;
+
+					TimeRemaining = resultsDuration;
+				}
+				break;
+
+			case ClockState.Results:
+				if(TimeRemaining <= 0.0f) {
+					if(ControlSceneState) {
+						SceneManager.LoadScene("Leaderboard");
+					}
+
+					State = ClockState.Leaderboard;
+
+					TimeRemaining = leaderboardDuration;
+				}
+				break;
+
+			case ClockState.Leaderboard:
+				if(TimeRemaining <= 0.0f) {
+					if(ControlSceneState) {
+						SceneManager.LoadScene("Game");
+					}
+
+					State = ClockState.GameStart;
+
+					TimeRemaining = gameStartDuration;
+
+					ScoreManager.Instance.Reset();
 				}
 				break;
 		}
