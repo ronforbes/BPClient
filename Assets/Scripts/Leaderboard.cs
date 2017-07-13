@@ -52,7 +52,6 @@ public class Leaderboard : MonoBehaviour {
 			Debug.Log("Error: " + request.error);
 		}
 		else {
-            Debug.Log(request.text);
             string newJson = "{\"Items\":" + request.text + "}";
             leaderboard = JsonHelper.FromJson<GameResults>(newJson);
 

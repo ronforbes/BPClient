@@ -95,8 +95,6 @@ public class Clock : MonoBehaviour {
 
 			// Not sure why local time is 4 hours ahead of server time but compensate for it anyway
 			TimeRemaining = (float)(nextStateTime - (DateTime.UtcNow - TimeSpan.FromHours(4))).TotalSeconds;
-
-			Debug.Log("Synced client clock to server");
 		}
 	}
 
