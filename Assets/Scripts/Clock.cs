@@ -76,7 +76,7 @@ public class Clock : MonoBehaviour {
 	}
 
 	void SyncToGameRoomState() {
-		WWW gameRoomRequest = new WWW("http://localhost:5000/api/gameroom");
+		WWW gameRoomRequest = new WWW("http://blokprty.azurewebsites.net/api/gameroom");
 		StartCoroutine(OnGameRoomRequest(gameRoomRequest));
 	}
 

@@ -29,7 +29,7 @@ public class ScoreSubmitter : MonoBehaviour {
             Dictionary<string, string> headers = new Dictionary<string, string>();
             headers.Add("Content-Type", "application/json");
             headers.Add("Content-Length", body.Length.ToString());
-            WWW request = new WWW("http://localhost:5000/api/gameresults", body, headers);
+            WWW request = new WWW("http://blockprty.azurewebsites.net/api/gameresults", body, headers);
             
             StartCoroutine(OnGameResultsRequest(request));
 	}
