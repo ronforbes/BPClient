@@ -4,6 +4,19 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[Serializable]
+public class GameRoom {
+	public enum GameState {
+		Game,
+		Results,
+		Leaderboard
+	}
+	public int state;
+	public GameState State;
+	public string nextStateTime;
+	public DateTime NextStateTime;
+}
+
 public class Clock : MonoBehaviour {
 	static Clock instance;
     public static Clock Instance
@@ -24,23 +37,19 @@ public class Clock : MonoBehaviour {
 
 	public bool ControlSceneState;
 
-    public float TimeRemaining;
-
 	public enum ClockState {
-		GameStart,
-		GamePlay,
-		GameEnd,
+		Game,
 		Results,
 		Leaderboard
 	}
 
 	public ClockState State;
 
-	float gameStartDuration = 3.0f;
-	float gamePlayDuration = 10.0f;
-	float gameEndDuration = 3.0f;
+	float gameDuration = 10.0f;
 	float resultsDuration = 10.0f;
 	float leaderboardDuration = 10.0f;
+
+	public float TimeRemaining = 0.0f;
 
 	void Awake()
     {
@@ -58,72 +67,69 @@ public class Clock : MonoBehaviour {
     }
 
 	void Start() {
-		State = ClockState.GameStart;
+		// Sync to the server game room state
+		SyncToGameRoomState();
 
 		ControlSceneState = false;
+
+		InvokeRepeating("SyncToGameRoomState", 30.0f, 30.0f);
+	}
+
+	void SyncToGameRoomState() {
+		WWW gameRoomRequest = new WWW("http://localhost:5000/api/gameroom");
+		StartCoroutine(OnGameRoomRequest(gameRoomRequest));
+	}
+
+	IEnumerator OnGameRoomRequest(WWW request) {
+		// Wait until the request has received a response
+		yield return request;
 		
-		TimeRemaining = gameStartDuration;
+		if(!string.IsNullOrEmpty(request.error)) {
+			Debug.Log("Error: " + request.error);
+		}
+		else {
+			GameRoom room = JsonUtility.FromJson<GameRoom>(request.text);
+
+			State = (ClockState)room.state;
+			DateTime nextStateTime = DateTime.Parse(room.nextStateTime);
+
+			// Not sure why local time is 4 hours ahead of server time but compensate for it anyway
+			TimeRemaining = (float)(nextStateTime - (DateTime.UtcNow - TimeSpan.FromHours(4))).TotalSeconds;
+
+			Debug.Log("Synced client clock to server");
+		}
 	}
 
 	void Update()
     {
-        TimeRemaining -= Time.deltaTime;
+		TimeRemaining -= Time.deltaTime;
 
-		switch(State) {
-			case ClockState.GameStart:
-				if(TimeRemaining <= 0.0f) {
-					State = ClockState.GamePlay;
-
-					TimeRemaining = gamePlayDuration;
-				}
-				break;
-
-			case ClockState.GamePlay:
-				if(TimeRemaining <= 0.0f) {
-					State = ClockState.GameEnd;
-
-					TimeRemaining = gameEndDuration;
-				}
-				break;
-
-			case ClockState.GameEnd:
-				if(TimeRemaining <= 0.0f) {
+		if(TimeRemaining <= 0.0f) {
+			switch(State) {
+				case ClockState.Game:
+					State = ClockState.Results;
+					TimeRemaining = resultsDuration;
 					if(ControlSceneState) {
 						SceneManager.LoadScene("Results");
 					}
-
-					State = ClockState.Results;
-
-					TimeRemaining = resultsDuration;
-				}
-				break;
-
-			case ClockState.Results:
-				if(TimeRemaining <= 0.0f) {
+					break;
+				
+				case ClockState.Results:
+					State = ClockState.Leaderboard;
+					TimeRemaining = leaderboardDuration;
 					if(ControlSceneState) {
 						SceneManager.LoadScene("Leaderboard");
 					}
+					break;
 
-					State = ClockState.Leaderboard;
-
-					TimeRemaining = leaderboardDuration;
-				}
-				break;
-
-			case ClockState.Leaderboard:
-				if(TimeRemaining <= 0.0f) {
+				case ClockState.Leaderboard:
+					State = ClockState.Game;
+					TimeRemaining = gameDuration;
 					if(ControlSceneState) {
 						SceneManager.LoadScene("Game");
 					}
-
-					State = ClockState.GameStart;
-
-					TimeRemaining = gameStartDuration;
-
-					ScoreManager.Instance.Reset();
-				}
-				break;
-		}
-		
+					break;
+			}
+		}	
 	}
 }

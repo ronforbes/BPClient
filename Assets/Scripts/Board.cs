@@ -24,6 +24,8 @@ public class Board : MonoBehaviour {
 	}
 
 	void Start () {
+		ScoreManager.Instance.Reset();
+		
 		// Populate the board's block types, ensuring that no adjacent blocks are the same type
 		for(int x = 0; x < Columns; x++) {
 			for(int y = 0; y < Rows; y++) {

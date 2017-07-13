@@ -52,7 +52,7 @@ public class BlockEmptier : MonoBehaviour {
     /// </summary>
     void Update()
     {
-        if(Clock.Instance.State != Clock.ClockState.GamePlay) {
+        if(Clock.Instance.State != Clock.ClockState.Game) {
             return;
         }
         

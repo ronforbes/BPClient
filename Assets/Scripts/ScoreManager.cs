@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour {
 	static ScoreManager instance;
@@ -115,10 +117,10 @@ public class ScoreManager : MonoBehaviour {
         }
         ChainLengths [chainLength]++;
     }
-    
+    */
     // Update is called once per frame
     void Update()
     {
-        Level = (int)Mathf.Clamp(Score / 1000, 1, 99);
-    }*/
+        //Level = (int)Mathf.Clamp(Score / 1000, 1, 99);
+    }
 }

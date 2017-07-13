@@ -39,7 +39,7 @@ public class BlockSlider : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if(Clock.Instance.State != Clock.ClockState.GamePlay) {
+        if(Clock.Instance.State != Clock.ClockState.Game) {
             return;
         }
         

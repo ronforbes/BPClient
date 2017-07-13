@@ -14,9 +14,7 @@ public class PlayButtonController : MonoBehaviour {
 		Clock.Instance.ControlSceneState = true;
 
 		switch(Clock.Instance.State) {
-			case Clock.ClockState.GameStart:
-			case Clock.ClockState.GamePlay:
-			case Clock.ClockState.GameEnd:
+			case Clock.ClockState.Game:
 				SceneManager.LoadScene("Game");
 				break;
 
