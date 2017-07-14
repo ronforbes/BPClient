@@ -21,9 +21,9 @@ public class VersionManager : MonoBehaviour {
         }
     }
 
-	public int Major = 0;
-	public int Minor = 0;
-	public int Patch = 2;
+	public int Major;
+	public int Minor;
+	public int Patch;
 
 	void Awake() {
 
