@@ -1006,7 +1006,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Major: 0
   Minor: 1
-  Patch: 0
+  Patch: 1
 --- !u!1 &1789987027
 GameObject:
   m_ObjectHideFlags: 0
