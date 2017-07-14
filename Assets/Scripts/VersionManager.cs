@@ -20,15 +20,13 @@ public class VersionManager : MonoBehaviour {
             return instance;
         }
     }
-	
+
 	public int Major;
 	public int Minor;
 	public int Patch;
 
-	Text versionLabel;
-
 	void Awake() {
-		versionLabel = GetComponent<Text>();
+
 	}
 
 	// Use this for initialization
@@ -38,6 +36,6 @@ public class VersionManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		versionLabel.text = "Version " + Major + "." + Minor + "." + Patch;
+		
 	}
 }
