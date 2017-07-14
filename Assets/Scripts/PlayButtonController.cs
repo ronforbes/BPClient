@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayButtonController : MonoBehaviour {
+	InputField nameInputField;
+
+	void Awake() {
+		nameInputField = GameObject.Find("Name Input Field").GetComponent<InputField>();
+	}	
 
 	// Use this for initialization
 	void Start () {
@@ -11,6 +17,10 @@ public class PlayButtonController : MonoBehaviour {
 	}
 	
 	public void Play() {
+		if(nameInputField.text != "") {
+			Player.Instance.Name = nameInputField.text;
+		}
+
 		Clock.Instance.ControlSceneState = true;
 
 		switch(Clock.Instance.State) {

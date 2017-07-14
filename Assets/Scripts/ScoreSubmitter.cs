@@ -21,7 +21,7 @@ public class ScoreSubmitter : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GameResults results = new GameResults("Ron", ScoreManager.Instance.Score);
+		GameResults results = new GameResults(Player.Instance.Name, ScoreManager.Instance.Score);
             string serializedResults = JsonUtility.ToJson(results);
 
             byte[] body = Encoding.UTF8.GetBytes(serializedResults);
