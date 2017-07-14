@@ -40,7 +40,7 @@ public class Leaderboard : MonoBehaviour {
         if(Clock.Instance.State == Clock.ClockState.Leaderboard && !hasPreparedLeaderboard) {
 			hasPreparedLeaderboard = true;
 
-            WWW leaderboardRequest = new WWW("http://blokprty.azurewebsites.net/api/leaderboard");
+            WWW leaderboardRequest = new WWW("http://www.blokprty.com/api/leaderboard");
             StartCoroutine(OnLeaderboardRequest(leaderboardRequest));
 		}	
 	}
