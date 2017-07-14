@@ -45,9 +45,9 @@ public class Clock : MonoBehaviour {
 
 	public ClockState State;
 
-	float gameDuration = 10.0f;
-	float resultsDuration = 10.0f;
-	float leaderboardDuration = 10.0f;
+	float gameDuration = 120.0f;
+	float resultsDuration = 15.0f;
+	float leaderboardDuration = 15.0f;
 
 	public float TimeRemaining = 0.0f;
 
